@@ -1,0 +1,41 @@
+Install Packages with Homebrew for OS X
+	https://brew.sh/
+
+Pre-requisites
+
+Ensure JDK 8 is installed. (Compilation with JDK 8 below update 12 will not pass - See HADOOP-14900)
+
+gcc
+GNU Autools Chain: autoconf, automake, libtool
+cmake
+snappy
+gzip
+bzip2
+protobuf (use this: homebrew/versions/protobuf250)
+zlib
+openssl
+
+
+brew install <library/package-name>
+brew install gcc autoconf automake libtool cmake snappy gzip bzip2 zlib openssl
+
+Note: homebrew/versions is deprecated so protobuf250 needs to be compiled or installed as binary
+
+git clone https://github.com/apache/hadoop.git
+cd hadoop
+git checkout branch-3.1.2
+
+Manually edit the following file:
+hadoop/hadoop-yarn-project/hadoop-yarn/hadoop-yarn-server/hadoop-yarn-server-nodemanager/src/main/native/container-executor/impl/utils/docker-util.c
+
+Add (int *) to the following line at two places in the file
+getgrouplist(user, pw->pw_gid, groups, &ngroups)
+
+getgrouplist(user, pw->pw_gid, (int *)groups, &ngroups)
+
+
+See explanation
+https://issues.apache.org/jira/browse/YARN-8622
+
+Compile using
+mvn package -Pdist,native -DskipTests -Dtar

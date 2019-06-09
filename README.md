@@ -1,2 +1,2 @@
-# java.native
+# bigdata.native
 Compiled native hadoop libraries 

@@ -37,5 +37,9 @@ getgrouplist(user, pw->pw_gid, (int *)groups, &ngroups)
 See explanation
 https://issues.apache.org/jira/browse/YARN-8622
 
-Compile using
-mvn package -Pdist,native -DskipTests -Dtar
+Compile using (Remember to correctly set JAVA_HOME and OPENSSL_ROOT_DIR)
+OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl/1.0.2r (replace the path to the applicable path)
+mvn package -Pnative  -DskipTests -DOPENSSL_ROOT_DIR=$OPENSSL_ROOT_DIR -Dtar
+
+You could check if hadoop is using native libraries by invoking the following command
+$HADOOP_HOME/bin/hadoop checknative -a
